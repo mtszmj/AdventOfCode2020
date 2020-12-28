@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -25,6 +25,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdventOfCode2020\AdventOfCode2020.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Files\Day03.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
