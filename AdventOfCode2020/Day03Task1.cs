@@ -20,8 +20,6 @@ namespace AdventOfCode2020
             var trees = 0;
             var currentWidth = 0;
 
-            var path = new StringBuilder();
-
             for (var height = 0; height < tileHeight; height += down)
             {
                 var currentField = lines[height][currentWidth % tileWidth];
