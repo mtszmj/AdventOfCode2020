@@ -17,7 +17,7 @@ namespace AdventOfCode2020
                                        .Count(x => x.policy.IsValid(x.password) == true);
         }
 
-        public (PasswordPolicy policy, string password) ParsePasswordWithPolicy(string line)
+        public (IPasswordPolicy policy, string password) ParsePasswordWithPolicy(string line)
         {
             if (line is null)
                 throw new ArgumentNullException();
@@ -37,13 +37,23 @@ namespace AdventOfCode2020
                 throw new ArgumentException("Incorrect values format");
             }
 
-            var policy = new PasswordPolicy(min, max, parts[1][0]);
+            var policy = CreatePolicy(min, max, parts[1][0]);
             return (policy, parts[2]);
         }
 
-        public class PasswordPolicy 
+        protected virtual IPasswordPolicy CreatePolicy(int value1, int value2, char letter)
         {
-            public PasswordPolicy(int minimumOccurance, int maximumOccurance, char letterToCheck)
+            return new PasswordOccurancePolicy(value1, value2, letter);
+        }
+
+        public interface IPasswordPolicy
+        {
+            bool IsValid(string password);
+        }
+
+        public class PasswordOccurancePolicy : IPasswordPolicy
+        {
+            public PasswordOccurancePolicy(int minimumOccurance, int maximumOccurance, char letterToCheck)
             {
                 if (minimumOccurance > maximumOccurance)
                     throw new ArgumentException("Minimum occurance cannot be higher than maximum occurance");

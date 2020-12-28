@@ -65,7 +65,9 @@ namespace AdventOfCode2020.Tests
         [Test]
         public void parse_password_with_policy_returns_correct_policy()
         {
-            var (policy, _) = Solution.ParsePasswordWithPolicy("1-3 a: babcde");
+            var (ipolicy, _) = Solution.ParsePasswordWithPolicy("1-3 a: babcde");
+
+            var policy = ipolicy as Day02Task1.PasswordOccurancePolicy;
 
             policy.MinimumOccurance.Should().Be(1);
             policy.MaximumOccurance.Should().Be(3);
@@ -84,7 +86,7 @@ namespace AdventOfCode2020.Tests
         [TestCase(2, 9, 'c', "ccccccccc")]
         public void password_validation_returns_true(int min, int max, char letter, string password)
         {
-            var policy = new Day02Task1.PasswordPolicy(min, max, letter);
+            var policy = new Day02Task1.PasswordOccurancePolicy(min, max, letter);
 
             var result = policy.IsValid(password);
 
@@ -94,7 +96,7 @@ namespace AdventOfCode2020.Tests
         [TestCase(1, 3, 'b', "cdefg")]
         public void password_validation_returns_false(int min, int max, char letter, string password)
         {
-            var policy = new Day02Task1.PasswordPolicy(min, max, letter);
+            var policy = new Day02Task1.PasswordOccurancePolicy(min, max, letter);
 
             var result = policy.IsValid(password);
 
