@@ -12,15 +12,18 @@ namespace AdventOfCode2020
 
         public int FindSeatIdWithMinusOneAndPlusOnePresent(string[] input)
         {
+            var result = -1;
             var seatIds = input.Select(x => solver.FindSeatId(x)).OrderBy(x => x).ToList();
 
             var previous_minus1 = seatIds[1];
             foreach (var id in seatIds.OrderBy(x => x))
             {
+                //if (previous_minus2 + 1 == previous_minus1 && previous_minus1 + 1 == id)
                 if (previous_minus1 + 2 == id)
                     return previous_minus1 + 1;
                 else
                 {
+                    //previous_minus2 = previous_minus1;
                     previous_minus1 = id;
                 }
             }
