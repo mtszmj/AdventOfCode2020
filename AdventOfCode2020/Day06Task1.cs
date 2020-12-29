@@ -21,7 +21,7 @@ namespace AdventOfCode2020
             return input.Split(GroupSeparator, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public int CountYesesInGroup(string group)
+        public virtual int CountYesesInGroup(string group)
         {
             var yeses = group.Where(x => char.IsLetter(x)).ToHashSet();
             return yeses.Count();
