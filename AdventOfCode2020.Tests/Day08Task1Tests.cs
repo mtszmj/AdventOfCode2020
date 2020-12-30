@@ -16,7 +16,7 @@ namespace AdventOfCode2020.Tests
         public void handle_nop_operation_returns_the_same_accumulator()
         {
             var state = new Day08Task1.State(123, 10);
-            var nop = new Day08Task1.Nop();
+            var nop = new Day08Task1.Nop(11);
 
             var result = nop.Handle(state);
 
@@ -27,7 +27,7 @@ namespace AdventOfCode2020.Tests
         public void handle_nop_operation_returns_next_line_of_1_more()
         {
             var state = new Day08Task1.State(123, 10);
-            var nop = new Day08Task1.Nop();
+            var nop = new Day08Task1.Nop(12);
 
             var result = nop.Handle(state);
 
@@ -38,7 +38,7 @@ namespace AdventOfCode2020.Tests
         public void handle_nop_operation_sets_was_executed_flag()
         {
             var state = new Day08Task1.State(123, 10);
-            var nop = new Day08Task1.Nop();
+            var nop = new Day08Task1.Nop(13);
 
             nop.WasExecuted.Should().BeFalse();
             var result = nop.Handle(state);
@@ -140,7 +140,7 @@ acc +6";
             var result = solver.ParseInput(input.Split(Environment.NewLine)).ToList();
 
             result.Should().HaveCount(9);
-            result[0].Should().BeOfType<Day08Task1.Nop>();
+            result[0].Should().BeOfType<Day08Task1.Nop>().And.Subject.As<Day08Task1.Nop>().Value.Should().Be(0);
             result[1].Should().BeOfType<Day08Task1.Acc>().And.Subject.As<Day08Task1.Acc>().Value.Should().Be(1);
             result[2].Should().BeOfType<Day08Task1.Jmp>().And.Subject.As<Day08Task1.Jmp>().Offset.Should().Be(4);
             result[3].Should().BeOfType<Day08Task1.Acc>().And.Subject.As<Day08Task1.Acc>().Value.Should().Be(3);
