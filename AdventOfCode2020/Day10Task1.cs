@@ -8,11 +8,6 @@ namespace AdventOfCode2020
 {
     public class Day10Task1
     {
-        public long Solve(string input)
-        {
-            return default;
-        }
-
         public long FindDeviceVoltage(long[] adapterJolts)
         {
             return adapterJolts.Max() + 3;
