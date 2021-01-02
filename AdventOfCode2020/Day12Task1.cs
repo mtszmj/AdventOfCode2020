@@ -101,7 +101,7 @@ namespace AdventOfCode2020
             public Left(int value) : base(value) { }
             public override Position Move(Position @from)
             {
-                var quarters = (Value / 90);
+                var quarters = (Value / 90) % 4;
                 var directionValue = (int)@from.Direction + (4 - quarters);
                 var direction = (Direction)(directionValue % 4);
                 return @from with { Direction = direction };
@@ -112,7 +112,7 @@ namespace AdventOfCode2020
             public Right(int value) : base(value) { }
             public override Position Move(Position @from)
             {
-                var quarters = (Value / 90);
+                var quarters = (Value / 90) % 4;
                 var directionValue = (int)@from.Direction + quarters;
                 var direction = (Direction)(directionValue % 4);
                 return @from with { Direction = direction };

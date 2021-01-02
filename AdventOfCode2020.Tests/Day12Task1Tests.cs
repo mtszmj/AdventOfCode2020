@@ -28,7 +28,7 @@ L5
 R6
 F7";
 
-        Position StartingPostion => new Position(1, 1, Direction.E);
+        Position StartingPosition => new Position(1, 1, Direction.E);
 
         [Test]
         public void parses_commands()
@@ -65,7 +65,7 @@ F7";
         {
             var command = new North(11);
 
-            var result = command.Move(StartingPostion);
+            var result = command.Move(StartingPosition);
 
             result.North.Should().Be(12);
             result.East.Should().Be(1);
@@ -77,7 +77,7 @@ F7";
         {
             var command = new South(11);
 
-            var result = command.Move(StartingPostion);
+            var result = command.Move(StartingPosition);
 
             result.North.Should().Be(-10);
             result.East.Should().Be(1);
@@ -89,7 +89,7 @@ F7";
         {
             var command = new East(11);
 
-            var result = command.Move(StartingPostion with { Direction = Direction.N });
+            var result = command.Move(StartingPosition with { Direction = Direction.N });
 
             result.North.Should().Be(1);
             result.East.Should().Be(12);
@@ -101,7 +101,7 @@ F7";
         {
             var command = new West(11);
 
-            var result = command.Move(StartingPostion);
+            var result = command.Move(StartingPosition);
 
             result.North.Should().Be(1);
             result.East.Should().Be(-10);
@@ -112,7 +112,7 @@ F7";
         {
             var command = new Forward(11);
 
-            var result = command.Move(StartingPostion with { Direction = Direction.N });
+            var result = command.Move(StartingPosition with { Direction = Direction.N });
 
             result.North.Should().Be(12);
             result.East.Should().Be(1);
@@ -124,7 +124,7 @@ F7";
         {
             var command = new Forward(11);
 
-            var result = command.Move(StartingPostion with { Direction = Direction.S });
+            var result = command.Move(StartingPosition with { Direction = Direction.S });
 
             result.North.Should().Be(-10);
             result.East.Should().Be(1);
@@ -136,7 +136,7 @@ F7";
         {
             var command = new Forward(11);
 
-            var result = command.Move(StartingPostion with { Direction = Direction.E });
+            var result = command.Move(StartingPosition with { Direction = Direction.E });
 
             result.North.Should().Be(1);
             result.East.Should().Be(12);
@@ -148,7 +148,7 @@ F7";
         {
             var command = new Forward(11);
 
-            var result = command.Move(StartingPostion with { Direction = Direction.W });
+            var result = command.Move(StartingPosition with { Direction = Direction.W });
 
             result.North.Should().Be(1);
             result.East.Should().Be(-10);
@@ -164,7 +164,7 @@ F7";
         {
             var command = new Right(angle);
 
-            var result = command.Move(StartingPostion);
+            var result = command.Move(StartingPosition);
 
             result.North.Should().Be(1);
             result.East.Should().Be(1);
@@ -180,7 +180,7 @@ F7";
         {
             var command = new Left(angle);
 
-            var result = command.Move(StartingPostion);
+            var result = command.Move(StartingPosition);
 
             result.North.Should().Be(1);
             result.East.Should().Be(1);
