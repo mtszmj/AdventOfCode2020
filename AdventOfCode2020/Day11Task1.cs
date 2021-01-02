@@ -79,7 +79,8 @@ namespace AdventOfCode2020
 
                     var adjacementSeatsStates = CheckAdjacementSeats(snapshot, r, c);
                     if (snapshot[r, c].IsEmpty
-                        && !adjacementSeatsStates.TryGetValue(Occupation.Occupied, out int _)
+                        && (!adjacementSeatsStates.TryGetValue(Occupation.Occupied, out int numOfOccupied)
+                        || numOfOccupied == 0)
                         )
                     {
                         seats[r, c].Occupation = Occupation.Occupied;
