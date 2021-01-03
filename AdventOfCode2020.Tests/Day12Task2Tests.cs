@@ -20,14 +20,6 @@ F7
 R90
 F11";
 
-        string input2 = @"N1
-S2
-E3
-W4
-L5
-R6
-F7";
-
         Positions StartingPositions => new Positions
         (
             Ship: new Position2(0, 0),
