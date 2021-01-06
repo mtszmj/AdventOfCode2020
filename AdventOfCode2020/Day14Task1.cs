@@ -84,7 +84,7 @@ namespace AdventOfCode2020
             }
         }
 
-        public class System
+        public class System : ISystem
         {
             public System(IEnumerable<ICommand> commands)
             {
@@ -108,7 +108,7 @@ namespace AdventOfCode2020
 
             public void Run()
             {
-                foreach(var cmd in Commands)
+                foreach (var cmd in Commands)
                 {
                     cmd.Process(this);
                 }
@@ -118,6 +118,15 @@ namespace AdventOfCode2020
             {
                 return Memory.Values.Sum();
             }
+        }
+
+        public interface ISystem
+        {
+            IEnumerable<Day14Task1.ICommand> Commands { get; }
+            public Dictionary<long, long> Memory { get; }
+
+            long MemorySum();
+            void Run();
         }
     }
 }
