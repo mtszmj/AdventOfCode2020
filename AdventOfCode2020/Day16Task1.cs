@@ -11,7 +11,7 @@ namespace AdventOfCode2020
     {
         private static string NL = Environment.NewLine;
         
-        public long Solve(string input)
+        public virtual long Solve(string input)
         {
             var data = Parse(input);
 
@@ -101,7 +101,7 @@ namespace AdventOfCode2020
 
         public class Ticket
         {
-            public HashSet<int> Numbers { get; } = new HashSet<int>();
+            public List<int> Numbers { get; } = new List<int>();
         }
 
         public class Data
