@@ -53,7 +53,7 @@ namespace AdventOfCode2020.Tests
 
             var result = solver.Solve(input);
 
-            result.Should().Be(1);
+            result.Should().Be(351175492232654L);
         }
 
     }
