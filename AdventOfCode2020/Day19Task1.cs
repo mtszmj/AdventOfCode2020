@@ -177,21 +177,21 @@ namespace AdventOfCode2020
                     foreach (var parent in Parents)
                     {
                         var subrulesCount = parent.Subrules.Count;
-                        for (var p = 0; p < subrulesCount; p++)
+                        for (var parentSubIdx = 0; parentSubIdx < subrulesCount; parentSubIdx++)
                         {
                             if (Subrules.Count == 1)
                             {
-                                var end = parent.Subrules[p].Rules.Count;
+                                var end = parent.Subrules[parentSubIdx].Rules.Count;
                                 for (var i = 0; i < end; i++)
                                 {
-                                    if (parent.Subrules[p].Rules[i] == this)
+                                    if (parent.Subrules[parentSubIdx].Rules[i] == this)
                                     {
                                         var removeIndex = i;
                                         for (var j = 0; j < Subrules[0].Rules.Count; j++, i++, end++)
                                         {
-                                            parent.Subrules[p].Rules.Insert(i+1, Subrules[0].Rules[j]);
+                                            parent.Subrules[parentSubIdx].Rules.Insert(i+1, Subrules[0].Rules[j]);
                                         }
-                                        parent.Subrules[p].Rules.RemoveAt(removeIndex);
+                                        parent.Subrules[parentSubIdx].Rules.RemoveAt(removeIndex);
                                         i--;
                                         end--;
                                     }
@@ -199,36 +199,34 @@ namespace AdventOfCode2020
                             }
                             else if (Subrules.Count > 1)
                             {
-                                var remove = false;
-                                foreach (var sub in Subrules)
+                                var removeSubruleAfterInserting = false;
+                                var rulesInSubrule = parent.Subrules[parentSubIdx].Rules.Count;
+                                for (var ris = 0; ris < rulesInSubrule; ris++)
                                 {
-                                    var insert = false;
-                                    var copy = parent.Subrules[p].Copy();
-                                    var end = copy.Rules.Count;
-                                    for (var i = 0; i < end; i++)
+                                    if (parent.Subrules[parentSubIdx].Rules[ris] == this)
                                     {
-                                        if (copy.Rules[i] == this)
+                                        foreach (var childSub in Subrules)
                                         {
-                                            insert = true;
-                                            remove = true;
-                                            var removeIndex = i;
-                                            for (var j = 0; j < sub.Rules.Count; j++, i++, end++)
+                                            var insertRulesFrom = ris;
+                                            var copy = parent.Subrules[parentSubIdx].Copy();
+                                            var removeIndex = ris;
+                                            for (var j = 0; j < childSub.Rules.Count; j++, insertRulesFrom++)
                                             {
-                                                copy.Rules.Insert(i + 1, sub.Rules[j]);
+                                                copy.Rules.Insert(insertRulesFrom + 1, childSub.Rules[j]);
                                             }
                                             copy.Rules.RemoveAt(removeIndex);
-                                            i--;
-                                            end--;
+                                            parent.Subrules.Add(copy);
+                                            subrulesCount++;
+                                            removeSubruleAfterInserting = true;
+                                        }
+                                        if(removeSubruleAfterInserting)
+                                        {
+                                            parent.Subrules.RemoveAt(parentSubIdx);
+                                            parentSubIdx--;
+                                            subrulesCount--;
+                                            break;
                                         }
                                     }
-                                    if (insert)
-                                        parent.Subrules.Add(copy);
-                                }
-                                if (remove)
-                                {
-                                    parent.Subrules.RemoveAt(p);
-                                    p--;
-                                    subrulesCount--;
                                 }
                             }
 
