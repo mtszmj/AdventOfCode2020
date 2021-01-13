@@ -137,10 +137,17 @@ namespace AdventOfCode2020
             public HashSet<Rule> Children { get; } = new HashSet<Rule>();
             public bool AlreadyReplacedSubrulesInParents { get; private set; }
 
+            public bool IsLoop { get; private set; }
+
             public void AddChildren(IEnumerable<Rule> children)
             {
                 foreach (var ch in children)
                 {
+                    if (ch == this)
+                    {
+                        IsLoop = true;
+                        continue;
+                    }
                     Children.Add(ch);
                     ch.AddParent(this);
                 }
