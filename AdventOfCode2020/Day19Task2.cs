@@ -17,12 +17,15 @@ namespace AdventOfCode2020
             var mainRule = rules[0] as CombinedRule;
 
             var result = 0;
-            foreach(var line in rulesInput[1]
+            foreach (var line in rulesInput[1]
                 .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
             {
                 var (isCorrect, index) = RecursiveCheck(mainRule, line, 0);
                 if (isCorrect)
+                {
                     result++;
+                    Console.WriteLine(line);
+                }
             }
 
             return result;
@@ -30,19 +33,23 @@ namespace AdventOfCode2020
 
         public (bool isCorrect, int currentIndex) RecursiveCheck(Rule ruleToCheck, string lineToCheck, int indexToCheck)
         {
-            if(ruleToCheck is CombinedRule cmbRule)
+            if (ruleToCheck is CombinedRule cmbRule)
             {
-                foreach(var subrule in cmbRule.Subrules)
+                foreach (var subrule in cmbRule.Subrules.OrderBy/*Descending*/(x => x.Rules.Count))
                 {
                     var newIndex = indexToCheck;
                     var isCorrect = false;
-                    foreach(var rule in subrule.Rules)
+                    foreach (var rule in subrule.Rules)
                     {
+                        // Zmienić tak żeby zwracało nie true / false, ale listę poprawnych 
+                        // rozwiązań (mogą mieć różną długość). Za false będzie służyć lista 
+                        // o długości 0, za true lista z indexami integer na jakich można 
+                        // poprawnie zakończyć.
                         (isCorrect, newIndex) = RecursiveCheck(rule, lineToCheck, newIndex);
                         if (!isCorrect)
                             break;
                     }
-                    if (isCorrect)
+                    if (isCorrect && (ruleToCheck.Number != 0 || newIndex == lineToCheck.Length))
                         return (true, newIndex);
                 }
 
@@ -58,7 +65,43 @@ namespace AdventOfCode2020
 
                 return (false, indexToCheck);
             }
+        }
 
+        public List<int> RecursiveCheck2(Rule ruleToCheck, string lineToCheck, List<int> indexesToCheck)
+        {
+            var correctIndexes = new List<int>();
+
+            if (ruleToCheck is CombinedRule cmbRule)
+            {
+                foreach (var subrule in cmbRule.Subrules.OrderByDescending(x => x.Rules.Count))
+                {
+                    var newCorrectIndexes = new List<int>(indexesToCheck);
+                    var isCorrect = false;
+                    foreach (var rule in subrule.Rules)
+                    {
+                        newCorrectIndexes = RecursiveCheck2(rule, lineToCheck, newCorrectIndexes);
+                        if (!isCorrect)
+                            break;
+                    }
+                    if (isCorrect && (ruleToCheck.Number != 0 || newCorrectIndexes.Contains(lineToCheck.Length)))
+                        correctIndexes.AddRange(newCorrectIndexes);
+                }
+
+                return correctIndexes;
+            }
+            else
+            {
+                var result = new List<int>();
+                foreach(var indexToCheck in indexesToCheck)
+                {
+                    if (indexToCheck >= lineToCheck.Length)
+                        continue;
+
+                    if (lineToCheck[indexToCheck] == ruleToCheck.Value[0])
+                        result.Add(indexToCheck + 1);
+                }
+                return result;
+            }
         }
 
 
