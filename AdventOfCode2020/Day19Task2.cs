@@ -17,16 +17,29 @@ namespace AdventOfCode2020
             var mainRule = rules[0] as CombinedRule;
 
             var result = 0;
+
+            //foreach (var line in rulesInput[1]
+            //    .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
+            //{
+            //    var (isCorrect, index) = RecursiveCheck(mainRule, line, 0);
+            //    if (isCorrect)
+            //    {
+            //        result++;
+            //        Console.WriteLine(line);
+            //    }
+            //}
+
             foreach (var line in rulesInput[1]
                 .Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
             {
-                var (isCorrect, index) = RecursiveCheck(mainRule, line, 0);
-                if (isCorrect)
+                var results = RecursiveCheck2(mainRule, line, new List<int> { 0 });
+                if (results.Any())
                 {
                     result++;
                     Console.WriteLine(line);
                 }
             }
+
 
             return result;
         }
@@ -76,14 +89,13 @@ namespace AdventOfCode2020
                 foreach (var subrule in cmbRule.Subrules.OrderByDescending(x => x.Rules.Count))
                 {
                     var newCorrectIndexes = new List<int>(indexesToCheck);
-                    var isCorrect = false;
                     foreach (var rule in subrule.Rules)
                     {
                         newCorrectIndexes = RecursiveCheck2(rule, lineToCheck, newCorrectIndexes);
-                        if (!isCorrect)
+                        if (!newCorrectIndexes.Any())
                             break;
                     }
-                    if (isCorrect && (ruleToCheck.Number != 0 || newCorrectIndexes.Contains(lineToCheck.Length)))
+                    if (newCorrectIndexes.Any() && (ruleToCheck.Number != 0 || newCorrectIndexes.Contains(lineToCheck.Length)))
                         correctIndexes.AddRange(newCorrectIndexes);
                 }
 

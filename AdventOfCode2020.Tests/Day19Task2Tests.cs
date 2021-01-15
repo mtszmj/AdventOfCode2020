@@ -66,6 +66,18 @@ aaaabbb";
         }
 
         [Test]
+        public void solves_input_1()
+        {
+            string input = File.ReadAllText("Files\\Day19.txt");
+            input = input.Replace("8: 42", "8: 42 | 42 8");
+            input = input.Replace("11: 42 31", "11: 42 31 | 42 11 31");
+
+            var result = Solver().Solve(input);
+
+            result.Should().Be(195);
+        }
+
+        [Test]
         public void solves_input_2()
         {
             string input = File.ReadAllText("Files\\Day19_2_ex.txt");
