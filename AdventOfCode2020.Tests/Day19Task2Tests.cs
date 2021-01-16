@@ -74,7 +74,7 @@ aaaabbb";
 
             var result = Solver().Solve(input);
 
-            result.Should().Be(195);
+            result.Should().Be(309);
         }
 
         [Test]
