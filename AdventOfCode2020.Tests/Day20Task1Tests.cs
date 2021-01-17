@@ -57,19 +57,42 @@ namespace AdventOfCode2020.Tests
                 tileByBorder.GroupBy(x => x.Value.Count).Select(x => $"{x.Key}: {x.Count()}")));
         }
 
+
+        [Test]
+        public void parses_input()
+        {
+            var input = File.ReadAllText("Files\\Day20.txt");
+            var solver = Solver();
+
+            var tiles = solver.Parse(input);
+
+            //tiles.Count.Should().Be(9);
+
+            //tiles.Select(x => x.Id).ToHashSet()
+            //    .Should().Contain(new int[] { 2311, 1951, 1171, 1427, 1489, 2473, 2971, 2729, 3079 });
+
+            var (tileByBorder, singleBorderCount) = solver.TileByBorder(tiles);
+
+            Console.WriteLine($"Rogi: {string.Join(",", singleBorderCount.Where(x => x.Value == 4).Select(x => x.Key.Id))}");
+            Console.WriteLine($"Boki: {string.Join(",", singleBorderCount.Where(x => x.Value == 2).Select(x => x.Key.Id))}");
+
+            Console.WriteLine(string.Join(Environment.NewLine,
+                tileByBorder.GroupBy(x => x.Value.Count).Select(x => $"{x.Key}: {x.Count()}")));
+        }
+
         [Test]
         public void check_rotations_and_flips_of_tile()
         {
             var tileData =
 @"abcdefghij
-!xxxxxxxx1
-@xxxxxxxx2
-#xxxxxxxx3
-$xxxxxxxx4
-%xxxxxxxx5
-^xxxxxxxx6
-&xxxxxxxx7
-*xxxxxxxx8
+!ABCDEFGH1
+@aBcDeFgH2
+#AbCdEfGh3
+${:<,.>|}4
+%[;(~`)\]5
+^LmNoPqRs6
+&lMnOpQrS7
+*LMNOPQRS8
 klmnopqrst";
 
             var tile = new Tile(1, tileData);
