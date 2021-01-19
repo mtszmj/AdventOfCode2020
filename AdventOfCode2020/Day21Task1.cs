@@ -68,15 +68,22 @@ namespace AdventOfCode2020
         public int Solve(string input)
         {
             var (allergens, ingredientsCount) = ParseInput(input);
+            HashSet<string> assignedIngredients = AssignIngredients(allergens);
+
+            return ingredientsCount.Where(x => !assignedIngredients.Contains(x.Key)).Sum(x => x.Value);
+        }
+
+        public HashSet<string> AssignIngredients(Dictionary<string, Allergen> allergens)
+        {
             var copyOfAllergens = new Dictionary<string, Allergen>(allergens);
             var assignedIngredients = new HashSet<string>();
             while (copyOfAllergens.Any())
             {
                 var copy = new Dictionary<string, Allergen>(copyOfAllergens);
-                foreach(var all in copy.Values.Where(x => x.Ingredient == null).ToArray())
+                foreach (var all in copy.Values.Where(x => x.Ingredient == null).ToArray())
                 {
                     var countOfMaxOccurances = all.IngredientsCount.Count(x => x.Value == all.Occurances && !assignedIngredients.Contains(x.Key));
-                    if(countOfMaxOccurances == 1)
+                    if (countOfMaxOccurances == 1)
                     {
                         all.Ingredient = all.IngredientsCount.First(x => x.Value == all.Occurances && !assignedIngredients.Contains(x.Key)).Key;
                         assignedIngredients.Add(all.Ingredient);
@@ -85,7 +92,7 @@ namespace AdventOfCode2020
                 }
             }
 
-            return ingredientsCount.Where(x => !assignedIngredients.Contains(x.Key)).Sum(x => x.Value);
+            return assignedIngredients;
         }
     }
 }
