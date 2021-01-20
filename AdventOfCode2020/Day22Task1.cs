@@ -13,7 +13,6 @@ namespace AdventOfCode2020
             var (p1, p2) = Parse(input);
             Play(p1, p2);
 
-
             return p1.Count > p2.Count ? CalculateResult(p1) : CalculateResult(p2);
         }
 
