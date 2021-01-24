@@ -44,7 +44,7 @@ namespace AdventOfCode2020.Tests
 
             var result = solver.Solve(input, 1000000, 10000000);
 
-            result.Should().Be(0);
+            result.Should().Be(836763710);
         }
 
     }
